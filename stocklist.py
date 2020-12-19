@@ -2,6 +2,10 @@ from ftplib import FTP
 import os
 import errno
 
+
+# this is used to get all tickers from the market.
+
+
 exportList = []
 
 
@@ -47,7 +51,8 @@ class NasdaqController:
 
                     line = line.strip().split("|")
 
-                    if line[0] == "" or line[1] == "":
+                    # line[6] and line[4] is for ETFs. Let's skip those to make this faster.
+                    if line[0] == "" or line[1] == "" or (filename == 'nasdaqlisted' and line[6] == 'Y') or (filename == 'otherlisted' and line[4] == 'Y'):
                         continue
 
                     all_listed.write(line[0] + ",")
